@@ -1,26 +1,5 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
-<html>
-<head>
-  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-  <meta http-equiv="Content-Style-Type" content="text/css">
-  <title></title>
-  <meta name="Generator" content="Cocoa HTML Writer">
-  <meta name="CocoaVersion" content="2575.7">
-  <style type="text/css">
-    p.p1 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px Menlo; color: #d4d4d4; -webkit-text-stroke: #d4d4d4}
-    p.p2 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px Menlo; color: #c27e65; -webkit-text-stroke: #c27e65}
-    p.p3 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px Menlo; color: #8cd3fe; -webkit-text-stroke: #8cd3fe}
-    span.s1 {font-kerning: none; background-color: #171717}
-    span.s2 {font-kerning: none; color: #cacaca; background-color: #171717; -webkit-text-stroke: 0px #cacaca}
-    span.s3 {font-kerning: none; color: #8cd3fe; background-color: #171717; -webkit-text-stroke: 0px #8cd3fe}
-    span.s4 {font-kerning: none; color: #d4d4d4; background-color: #171717; -webkit-text-stroke: 0px #d4d4d4}
-  </style>
-</head>
-<body>
-<p class="p1"><span class="s1">{</span></p>
-<p class="p2"><span class="s2"><span class="Apple-converted-space">  </span></span><span class="s3">"name"</span><span class="s4">:</span><span class="s2"> </span><span class="s1">"Motionvation Challenge Tracker"</span><span class="s4">,</span></p>
-<p class="p2"><span class="s2"><span class="Apple-converted-space">  </span></span><span class="s3">"description"</span><span class="s4">:</span><span class="s2"> </span><span class="s1">"A mini-website to track a daily fitness challenge, including steps, push-ups, pull-ups, and an optional exercise. It displays daily entries, weekly totals, and overall progress for sharing with others."</span><span class="s4">,</span></p>
-<p class="p3"><span class="s2"><span class="Apple-converted-space">  </span></span><span class="s1">"requestFramePermissions"</span><span class="s4">:</span><span class="s2"> </span><span class="s4">[]</span></p>
-<p class="p1"><span class="s1">}</span></p>
-</body>
-</html>
+{
+  "name": "Motionvation Challenge Tracker",
+  "description": "A mini-website to track a daily fitness challenge, including steps, push-ups, pull-ups, and an optional exercise. It displays daily entries, weekly totals, and overall progress for sharing with others.",
+  "requestFramePermissions": []
+}
