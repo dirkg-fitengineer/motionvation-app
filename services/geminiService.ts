@@ -2,7 +2,8 @@ import { GoogleGenAI } from "@google/genai";
 import { DailyEntry } from '../types';
 
 export const getAIMotivation = async (entry: DailyEntry): Promise<string> => {
-    const apiKey = process.env.API_KEY;
+    // Safely access the API key to prevent crashes in environments where process.env is not defined.
+    const apiKey = (typeof process !== 'undefined' && process.env) ? process.env.API_KEY : undefined;
 
     if (!apiKey) {
         console.error("FEHLER: Gemini API-Schlüssel ist nicht konfiguriert. Bitte die Umgebungsvariable API_KEY setzen.");
