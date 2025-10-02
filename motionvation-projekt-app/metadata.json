@@ -1,5 +1,0 @@
-{
-  "name": "Motionvation Challenge Tracker",
-  "description": "A mini-website to track a daily fitness challenge, including steps, push-ups, pull-ups, and an optional exercise. It displays daily entries, weekly totals, and overall progress for sharing with others.",
-  "requestFramePermissions": []
-}
