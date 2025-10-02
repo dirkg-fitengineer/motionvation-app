@@ -1,10 +1,15 @@
-
 import { GoogleGenAI } from "@google/genai";
 import { DailyEntry } from '../types';
 
-const ai = new GoogleGenAI({ apiKey: process.env.API_KEY as string });
-
 export const getAIMotivation = async (entry: DailyEntry): Promise<string> => {
+    const apiKey = process.env.API_KEY;
+
+    if (!apiKey) {
+        console.error("FEHLER: Gemini API-Schlüssel ist nicht konfiguriert. Bitte die Umgebungsvariable API_KEY setzen.");
+        return "Du schaffst das! Selbst ohne meine Superkräfte! BAM!";
+    }
+
+    const ai = new GoogleGenAI({ apiKey });
     const { steps, pushups, pullups, comment } = entry;
 
     const prompt = `
