@@ -1,11 +1,25 @@
 import { GoogleGenAI } from "@google/genai";
 import { DailyEntry } from '../types';
 
-export const getAIMotivation = async (entry: DailyEntry): Promise<string> => {
-    // Safely access the API key to prevent crashes in environments where process.env is not defined.
-    const apiKey = (typeof process !== 'undefined' && process.env) ? process.env.API_KEY : undefined;
+// Dies ist eine robustere Methode, um den API-Schlüssel zu erhalten, die Abstürze verhindert.
+// Wir versuchen, einmal beim Laden des Moduls darauf zuzugreifen und ihn zu speichern.
+let apiKey: string | undefined;
 
+try {
+  // Dies funktioniert nur in einer Umgebung, in der `process` und `process.env` definiert sind.
+  // In einem Browser wird es sicher ignoriert oder der Fehler wird abgefangen.
+  if (typeof process !== 'undefined' && typeof process.env !== 'undefined') {
+    apiKey = process.env.API_KEY;
+  }
+} catch (error) {
+  // Wenn der Zugriff auf `process` in einer Sandbox-Umgebung einen Fehler auslöst, fangen wir ihn ab.
+  console.warn("Konnte nicht auf process.env zugreifen, um den API-Schlüssel zu finden. Dies ist in einer Browser-Umgebung normal.");
+  apiKey = undefined;
+}
+
+export const getAIMotivation = async (entry: DailyEntry): Promise<string> => {
     if (!apiKey) {
+        // Diese Nachricht wird nun zuverlässig angezeigt, wenn der API-Schlüssel in den Vercel-Umgebungsvariablen nicht gesetzt ist.
         console.error("FEHLER: Gemini API-Schlüssel ist nicht konfiguriert. Bitte die Umgebungsvariable API_KEY setzen.");
         return "Du schaffst das! Selbst ohne meine Superkräfte! BAM!";
     }
