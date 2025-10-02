@@ -1,5 +1,4 @@
-
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { DailyEntry } from '../types';
 import { X } from 'lucide-react';
 
@@ -66,6 +65,27 @@ export const AuthModal: React.FC<AuthModalProps> = ({ onClose, onSuccess, passwo
     );
 };
 
+// --- Standalone Input Field Component ---
+const InputField = ({ label, type, value, onChange }: { label: string, type: string, value: string | number, onChange: (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void }) => (
+    <div>
+        <label className="block font-bold mb-1">{label}</label>
+        {type === 'textarea' ? (
+             <textarea value={value} onChange={onChange} rows={3} className="w-full p-2 border-4 border-comic-dark shadow-comic-inset focus:outline-none focus:ring-2 focus:ring-comic-yellow" />
+        ) : (
+            <input 
+                type={type} 
+                value={value} 
+                onChange={onChange} 
+                required={type !== 'textarea'}
+                min={type === 'number' ? 0 : undefined}
+                placeholder={type === 'number' ? '0' : undefined}
+                className="w-full p-2 border-4 border-comic-dark shadow-comic-inset focus:outline-none focus:ring-2 focus:ring-comic-yellow" 
+            />
+        )}
+    </div>
+);
+
+
 // --- Entry Form Modal ---
 interface EntryFormModalProps {
     onClose: () => void;
@@ -75,9 +95,10 @@ interface EntryFormModalProps {
 
 export const EntryFormModal: React.FC<EntryFormModalProps> = ({ onClose, onSave, entry }) => {
     const [date, setDate] = useState(entry ? entry.date.split('T')[0] : new Date().toISOString().split('T')[0]);
-    const [steps, setSteps] = useState(entry ? entry.steps : 0);
-    const [pushups, setPushups] = useState(entry ? entry.pushups : 0);
-    const [pullups, setPullups] = useState(entry ? entry.pullups : 0);
+    // Store numeric inputs as strings to avoid input issues and allow smooth typing.
+    const [steps, setSteps] = useState(entry ? String(entry.steps) : '');
+    const [pushups, setPushups] = useState(entry ? String(entry.pushups) : '');
+    const [pullups, setPullups] = useState(entry ? String(entry.pullups) : '');
     const [comment, setComment] = useState(entry ? entry.comment ?? '' : '');
 
     const handleSubmit = (e: React.FormEvent) => {
@@ -85,32 +106,21 @@ export const EntryFormModal: React.FC<EntryFormModalProps> = ({ onClose, onSave,
         const newEntry: DailyEntry = {
             id: entry ? entry.id : new Date().toISOString(),
             date: new Date(date).toISOString(),
-            steps: Number(steps),
-            pushups: Number(pushups),
-            pullups: Number(pullups),
+            steps: Number(steps) || 0, // Convert to number on save, default to 0
+            pushups: Number(pushups) || 0,
+            pullups: Number(pullups) || 0,
             comment,
         };
         onSave(newEntry);
     };
-    
-    const InputField = ({ label, type, value, onChange }: { label: string, type: string, value: any, onChange: (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void }) => (
-        <div>
-            <label className="block font-bold mb-1">{label}</label>
-            {type === 'textarea' ? (
-                 <textarea value={value} onChange={onChange} rows={3} className="w-full p-2 border-4 border-comic-dark shadow-comic-inset focus:outline-none focus:ring-2 focus:ring-comic-yellow" />
-            ) : (
-                <input type={type} value={value} onChange={onChange} required={type !== 'textarea'} className="w-full p-2 border-4 border-comic-dark shadow-comic-inset focus:outline-none focus:ring-2 focus:ring-comic-yellow" />
-            )}
-        </div>
-    );
 
     return (
         <ModalWrapper onClose={onClose} title={entry ? "Mission bearbeiten" : "Neue tägliche Mission"}>
             <form onSubmit={handleSubmit} className="space-y-4">
                 <InputField label="Datum" type="date" value={date} onChange={e => setDate(e.target.value)} />
-                <InputField label="Schritte" type="number" value={steps} onChange={e => setSteps(Number(e.target.value))} />
-                <InputField label="Liegestütze" type="number" value={pushups} onChange={e => setPushups(Number(e.target.value))} />
-                <InputField label="Klimmzüge" type="number" value={pullups} onChange={e => setPullups(Number(e.target.value))} />
+                <InputField label="Schritte" type="number" value={steps} onChange={e => setSteps(e.target.value)} />
+                <InputField label="Liegestütze" type="number" value={pushups} onChange={e => setPushups(e.target.value)} />
+                <InputField label="Klimmzüge" type="number" value={pullups} onChange={e => setPullups(e.target.value)} />
                 <InputField label="Kommentar (Optional)" type="textarea" value={comment} onChange={e => setComment(e.target.value)} />
 
                 <button type="submit" className="w-full bg-comic-yellow text-comic-dark font-bangers text-2xl p-2 border-4 border-comic-dark shadow-comic-sm hover:bg-comic-dark hover:text-comic-yellow transition-colors">
